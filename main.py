@@ -33,6 +33,11 @@ class capture(Ui_MainWindow):
         # function is to connect with slider 
         self.ThresholdSlider.setValue(value)
 
+    def calibrateAdaThresh(self, value):
+        # work on adaptive thresholding
+        return None
+
+    # def showEyes()
 
     def onClicked(self):
         # function onClicked() starts video streaming
@@ -54,29 +59,42 @@ class capture(Ui_MainWindow):
                 # left_eye, right_eye = eyes
                 # bytesPerLine_eye = 3 * width
 
-                # qleft_eye = QImage(left_eye, eye_w, eye_h, bytesPerLine_eye, QImage.Format_RGB888)
-                # qright_eye = QImage(right_eye, eye_w, eye_h, bytesPerLine_eye, QImage.Format_RGB888)
-                # self.LeftEyeWindow.setPixmap(QPixmap.fromImage(qleft_eye))
-                # self.RightEyeWindow.setPixmap(QPixmap.fromImage(qright_eye))
-                # cv2.waitKey()
 
             if ret == True:
                 face = detect_faces(frame, face_cascade)
                 if face is not None: # check for face
 
-                    left_eye, right_eye = detect_eyes(face, eye_cascade)
+                    left_eye, right_eye, coords = detect_eyes(face, eye_cascade)
+
+                    # Use threshold for both eyes. IN THE FUTURE IMPLEMENT INDIVIDUAL THRESHOLD
+                    # FOR EACH EYE
                     threshold = self.ThresholdSlider.value()
                     self.threshold = threshold
 
+                    # show rectangular window around eye  
+
+                    # cv2.rectangle(face,(le_x, le_y),(le_x+le_w,le_y+le_h),(0,225,255),2) # left eye
+                    # cv2.rectangle(face,(le_x, le_y),(le_x+le_w,le_y+le_h),(0,225,255),2) # right eye
+
                     if left_eye is not None: # check for a left eye
-                        left_eye_h, left_eye_w = left_eye.shape 
-                        keypoints = blob_process(left_eye, self.threshold, detector)
-                        left_eye = draw_blobs(left_eye, keypoints)
+                        if self.leftCheckBox.isChecked():
+                            _, keypoints = blob_process(left_eye, self.threshold, detector)
+                            left_eye = draw_blobs(left_eye, keypoints)
+
+                        # ensure that image is compatible to display left eye in right window
+                        left_eye = np.require(left_eye, np.uint8, 'C')
+                        # left_eye = draw_blobs(left_eye, keypoints)
+                        self.display_eye_image(left_eye, 'left')
 
                     if right_eye is not None: # check for a right eye
-                        keypoints = blob_process(right_eye, self.threshold, detector)
-                        right_eye = draw_blobs(right_eye, keypoints)
+                        if self.rightCheckBox.isChecked():
+                            _, keypoints = blob_process(right_eye, self.threshold, detector)
+                            right_eye = draw_blobs(right_eye, keypoints)
 
+                        # ensure that image is compatible to display right eye in right window
+                        right_eye = np.require(right_eye, np.uint8, 'C')
+                        # right_eye = draw_blobs(right_eye, keypoints)
+                        self.display_eye_image(right_eye, 'right')
                             
                 # Put capturing frame into QLabel in Qt 
                 height, width, channel = frame.shape
@@ -85,12 +103,30 @@ class capture(Ui_MainWindow):
                 self.CameraWindow.setPixmap(QPixmap.fromImage(qImg))
                 cv2.waitKey()
 
+
     def offClicked(self):
         # function offClicked() stops video streaming
         _translate = QtCore.QCoreApplication.translate
         self.CameraLabel.setTitle(_translate("MainWindow","Not Active"))
         self.cap.release()
 
+    def display_eye_image(self, img, window):
+        # function eye_image() displays captured eyes onto QT Gui interface
+
+        qformat = QImage.Format_Indexed8
+        if len(img.shape) == 3:
+            if img.shape[2] == 4: # for RGBA
+                qformat = QImage.Format_RGBA8888
+            else: # for RGB
+                qformat = QImage.Format_RGB888
+        
+        output_img = QImage(img, img.shape[0], img.shape[1], img.strides[0], qformat)
+        if window == 'left':
+            self.LeftEyeWindow.setPixmap(QPixmap.fromImage(output_img))
+            self.LeftEyeWindow.setScaledContents(True)
+        if window == 'right':
+            self.RightEyeWindow.setPixmap(QPixmap.fromImage(output_img))
+            self.RightEyeWindow.setScaledContents(True)
 
 if __name__ == "__main__":
     import sys

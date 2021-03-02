@@ -8,7 +8,7 @@ def init_settings():
 	# Returns detector, face_cascade = face classifier, eye_cascade = eye classifier
 
 	face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-	eye_cascade = cv2.CascadeClassifier('haarcascade_eye_tree_eyeglasses.xml')
+	eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
 	detector_params = cv2.SimpleBlobDetector_Params()
 	detector_params.filterByArea = True
 	detector_params.maxArea = 1500
@@ -42,6 +42,7 @@ def detect_eyes(img,classifier):
 	coords = classifier.detectMultiScale(img_gray,1.05,5) # detect eyes
 	height = np.size(img,0) # get face frame height
 	width = np.size(img,1) # get face frame width
+
 	left_eye = None
 	right_eye = None
 	for (x,y,w,h) in coords:
@@ -50,9 +51,10 @@ def detect_eyes(img,classifier):
 		eyecenter = x + w/2 # get the approx eye center by cutting face in half
 		if eyecenter < width*0.5:
 			left_eye = img[y:y+h,x:x+w]
+			# left_eye_coords = [x, x+w, y, y+w]
 		else:
 			right_eye = img[y:y+h,x:x+w]
-	return left_eye, right_eye
+	return left_eye, right_eye, coords
 
 def cut_eyebrows(img):
 	# function cuts the eyebrows which will allow segmentation of pupils
@@ -78,7 +80,7 @@ def blob_process(img, threshold, detector):
 	# cv2.waitKey(0)
 	# cv2.destroyAllWindows()
 	keypoints = detector.detect(img)
-	return keypoints
+	return img, keypoints
 
 def nothing(x):
 	pass

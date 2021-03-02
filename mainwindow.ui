@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1027</width>
-    <height>443</height>
+    <width>1251</width>
+    <height>499</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -85,8 +85,8 @@
    <widget class="QLabel" name="LeftEyeWindow">
     <property name="geometry">
      <rect>
-      <x>700</x>
-      <y>40</y>
+      <x>760</x>
+      <y>30</y>
       <width>111</width>
       <height>111</height>
      </rect>
@@ -101,8 +101,8 @@
    <widget class="QLabel" name="RightEyeWindow">
     <property name="geometry">
      <rect>
-      <x>870</x>
-      <y>40</y>
+      <x>950</x>
+      <y>30</y>
       <width>111</width>
       <height>111</height>
      </rect>
@@ -117,8 +117,8 @@
    <widget class="QLabel" name="LeftEyeLabel">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>20</y>
+      <x>790</x>
+      <y>10</y>
       <width>51</width>
       <height>16</height>
      </rect>
@@ -130,8 +130,8 @@
    <widget class="QLabel" name="RightEyeLabel">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>20</y>
+      <x>980</x>
+      <y>10</y>
       <width>61</width>
       <height>16</height>
      </rect>
@@ -188,13 +188,135 @@
      <number>255</number>
     </property>
    </widget>
+   <widget class="QCheckBox" name="leftCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>150</y>
+      <width>61</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Track</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="rightCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>150</y>
+      <width>61</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Track</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="leftThresholdLabel">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>180</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Left Thresh</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="leftThresholdValue">
+    <property name="geometry">
+     <rect>
+      <x>1100</x>
+      <y>180</y>
+      <width>61</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+   </widget>
+   <widget class="QSlider" name="leftThreshSlider">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>180</y>
+      <width>331</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="sliderPosition">
+     <number>0</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="rightThresholdValue">
+    <property name="geometry">
+     <rect>
+      <x>1100</x>
+      <y>220</y>
+      <width>61</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="rightThresholdLabel">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>220</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Right Thresh</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="rightThreshSlider">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>220</y>
+      <width>331</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="sliderPosition">
+     <number>0</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1027</width>
+     <width>1251</width>
      <height>21</height>
     </rect>
    </property>
